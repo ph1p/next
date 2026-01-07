@@ -48,17 +48,21 @@ export function withSimpleAnalytics(
   const nextAnalyticsConfig: NextConfig = {
     async rewrites() {
       const existingRewrites = await nextConfig.rewrites?.();
+      const basePath = !nextConfig.basePath;
 
       const rewrites = [
         {
+          basePath,
           source: "/proxy.js",
           destination: `https://simpleanalyticsexternal.com/proxy.js?hostname=${hostname}&path=/simple`,
         },
         {
+          basePath,
           source: "/auto-events.js",
           destination: "https://scripts.simpleanalyticscdn.com/auto-events.js",
         },
         {
+          basePath,
           source: "/simple/:match*",
           destination: "https://queue.simpleanalyticscdn.com/:match*",
         },
